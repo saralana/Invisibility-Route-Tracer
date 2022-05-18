@@ -1,0 +1,772 @@
+{
+  "type": "FeatureCollection",
+  "bbox": [
+    8.80031,
+    53.073581,
+    8.803396,
+    53.075583
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.80281,
+          53.075229
+        ]
+      },
+      "properties": {
+        "osm_id": 158546065,
+        "osm_type": 2,
+        "distance": 57.14759482,
+        "category_ids": {
+          "245": {
+            "category_name": "ship",
+            "category_group": "historic"
+          },
+          "622": {
+            "category_name": "attraction",
+            "category_group": "tourism"
+          }
+        },
+        "osm_tags": {
+          "name": "Admiral Nelson"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801413,
+          53.074456
+        ]
+      },
+      "properties": {
+        "osm_id": 230279740,
+        "osm_type": 2,
+        "distance": 184.27140092,
+        "category_ids": {
+          "280": {
+            "category_name": "park",
+            "category_group": "leisure_and_entertainment"
+          }
+        },
+        "osm_tags": {
+          "name": "Grüne Oase"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803168,
+          53.074849
+        ]
+      },
+      "properties": {
+        "osm_id": 339719410,
+        "osm_type": 2,
+        "distance": 84.98967971,
+        "category_ids": {
+          "245": {
+            "category_name": "ship",
+            "category_group": "historic"
+          },
+          "622": {
+            "category_name": "attraction",
+            "category_group": "tourism"
+          }
+        },
+        "osm_tags": {
+          "website": "https://alex-das-schiff.de/",
+          "opening_hours": "Mo-Su,PH 11:30+",
+          "name": "Alexander von Humboldt"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.800399,
+          53.075406
+        ]
+      },
+      "properties": {
+        "osm_id": 1763449738,
+        "osm_type": 1,
+        "distance": 202.26071553,
+        "category_ids": {
+          "621": {
+            "category_name": "artwork",
+            "category_group": "tourism"
+          }
+        },
+        "osm_tags": {
+          "name": "Paar"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801314,
+          53.074789
+        ]
+      },
+      "properties": {
+        "osm_id": 1763450504,
+        "osm_type": 1,
+        "distance": 166.4011846,
+        "category_ids": {
+          "621": {
+            "category_name": "artwork",
+            "category_group": "tourism"
+          }
+        },
+        "osm_tags": {
+          "name": "Großes Mädchen"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801622,
+          53.074286
+        ]
+      },
+      "properties": {
+        "osm_id": 1965920669,
+        "osm_type": 1,
+        "distance": 188.64072977,
+        "category_ids": {
+          "601": {
+            "category_name": "parking",
+            "category_group": "transport"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801394,
+          53.074419
+        ]
+      },
+      "properties": {
+        "osm_id": 2456229977,
+        "osm_type": 1,
+        "distance": 188.00234806,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801357,
+          53.074459
+        ]
+      },
+      "properties": {
+        "osm_id": 2456229979,
+        "osm_type": 1,
+        "distance": 186.76213523,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.800546,
+          53.075583
+        ]
+      },
+      "properties": {
+        "osm_id": 2456230064,
+        "osm_type": 1,
+        "distance": 191.29066176,
+        "category_ids": {
+          "624": {
+            "category_name": "information",
+            "category_group": "tourism"
+          }
+        },
+        "osm_tags": {
+          "name": "Teerhof"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801059,
+          53.074683
+        ]
+      },
+      "properties": {
+        "osm_id": 3093959541,
+        "osm_type": 1,
+        "distance": 187.16253379,
+        "category_ids": {
+          "204": {
+            "category_name": "doctors",
+            "category_group": "healthcare"
+          }
+        },
+        "osm_tags": {
+          "phone": "+49 421 505506",
+          "wheelchair": "yes",
+          "opening_hours": "Mo, Tu, Th 08:30-13:00, 15:00-18:00; We, Fr 08:30-16:00",
+          "name": "Dr. med Hilmar Rauschert",
+          "healthcare:speciality": "orthopaedics"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801403,
+          53.074409
+        ]
+      },
+      "properties": {
+        "osm_id": 3093959542,
+        "osm_type": 1,
+        "distance": 188.41775585,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.801349,
+          53.074466
+        ]
+      },
+      "properties": {
+        "osm_id": 3093959543,
+        "osm_type": 1,
+        "distance": 186.60558382,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802407,
+          53.073948
+        ]
+      },
+      "properties": {
+        "osm_id": 3439812270,
+        "osm_type": 1,
+        "distance": 195.5442024,
+        "category_ids": {
+          "583": {
+            "category_name": "bicycle_parking",
+            "category_group": "transport"
+          }
+        },
+        "osm_tags": {
+          "fee": "no"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802007,
+          53.074399
+        ]
+      },
+      "properties": {
+        "osm_id": 3439812271,
+        "osm_type": 1,
+        "distance": 163.02364116,
+        "category_ids": {
+          "583": {
+            "category_name": "bicycle_parking",
+            "category_group": "transport"
+          }
+        },
+        "osm_tags": {
+          "fee": "no"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.80031,
+          53.075316
+        ]
+      },
+      "properties": {
+        "osm_id": 3439812276,
+        "osm_type": 1,
+        "distance": 209.47354191,
+        "category_ids": {
+          "583": {
+            "category_name": "bicycle_parking",
+            "category_group": "transport"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802215,
+          53.073581
+        ]
+      },
+      "properties": {
+        "osm_id": 4218047734,
+        "osm_type": 1,
+        "distance": 238.3490114,
+        "category_ids": {
+          "192": {
+            "category_name": "bank",
+            "category_group": "financial"
+          }
+        },
+        "osm_tags": {
+          "name": "Berenberg Niederlassung Bremen"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803255,
+          53.074775
+        ]
+      },
+      "properties": {
+        "osm_id": 4946301563,
+        "osm_type": 1,
+        "distance": 92.28377189,
+        "category_ids": {
+          "108": {
+            "category_name": "hotel",
+            "category_group": "accomodation"
+          }
+        },
+        "osm_tags": {
+          "phone": "+49 421 38039699",
+          "opening_hours": "08:00-18:00",
+          "name": "Alexander von Humboldt – Das Schiff",
+          "website": "https://alex-das-schiff.de/"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802832,
+          53.075219
+        ]
+      },
+      "properties": {
+        "osm_id": 4948573203,
+        "osm_type": 1,
+        "distance": 56.97504345,
+        "category_ids": {
+          "570": {
+            "category_name": "restaurant",
+            "category_group": "sustenance"
+          }
+        },
+        "osm_tags": {
+          "wheelchair": "limited",
+          "name": "Pannekoekschip",
+          "opening_hours": "Mo-Fr 12:00-20:00; Sa 11:00-21:00; Su 12:00-20:00"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803396,
+          53.075302
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212175,
+        "osm_type": 1,
+        "distance": 33.19842759,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803305,
+          53.075372
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212176,
+        "osm_type": 1,
+        "distance": 26.16511378,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803325,
+          53.075355
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212177,
+        "osm_type": 1,
+        "distance": 27.77845336,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803286,
+          53.075386
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212178,
+        "osm_type": 1,
+        "distance": 24.97317003,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803199,
+          53.075457
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212179,
+        "osm_type": 1,
+        "distance": 20.89710966,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803219,
+          53.075439
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212180,
+        "osm_type": 1,
+        "distance": 21.62079188,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.80318,
+          53.075471
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212181,
+        "osm_type": 1,
+        "distance": 20.57237049,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803111,
+          53.075523
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212182,
+        "osm_type": 1,
+        "distance": 21.18097656,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803091,
+          53.07554
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212183,
+        "osm_type": 1,
+        "distance": 21.76496816,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803072,
+          53.075555
+        ]
+      },
+      "properties": {
+        "osm_id": 4987212184,
+        "osm_type": 1,
+        "distance": 22.53859697,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802436,
+          53.07384
+        ]
+      },
+      "properties": {
+        "osm_id": 4987238729,
+        "osm_type": 1,
+        "distance": 206.24710748,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802426,
+          53.07386
+        ]
+      },
+      "properties": {
+        "osm_id": 4987238730,
+        "osm_type": 1,
+        "distance": 204.38772018,
+        "category_ids": {
+          "180": {
+            "category_name": "waste_basket",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.802417,
+          53.073879
+        ]
+      },
+      "properties": {
+        "osm_id": 4987238731,
+        "osm_type": 1,
+        "distance": 202.49407151,
+        "category_ids": {
+          "162": {
+            "category_name": "bench",
+            "category_group": "facilities"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.803112,
+          53.07489
+        ]
+      },
+      "properties": {
+        "osm_id": 6020624944,
+        "osm_type": 1,
+        "distance": 81.32208451,
+        "category_ids": {
+          "570": {
+            "category_name": "restaurant",
+            "category_group": "sustenance"
+          }
+        },
+        "osm_tags": {
+          "name": "Alexander von Humboldt – Das Schiff",
+          "website": "https://alex-das-schiff.de/",
+          "phone": "+49 421 38039699",
+          "opening_hours": "11:30-22:00"
+        }
+      }
+    }
+  ],
+  "information": {
+    "attribution": "openrouteservice.org | OpenStreetMap contributors",
+    "version": "0.1",
+    "timestamp": 1647834620,
+    "query": {
+      "geometry": {
+        "bbox": [
+          [
+            8.8034,
+            53.0756
+          ],
+          [
+            8.7834,
+            53.0456
+          ]
+        ],
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            8.8034,
+            53.0756
+          ]
+        },
+        "buffer": 250
+      },
+      "request": "pois"
+    }
+  }
+}

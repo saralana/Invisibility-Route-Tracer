@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+}
+
+
+img.huechangeA {
+  filter: hue-rotate(250deg);
+}
+
+img.huechangeB {
+  filter: hue-rotate(150deg);
+}
