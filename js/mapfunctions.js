@@ -194,7 +194,7 @@ function getDirectionsORS2(avoidingPolygons) {
   })
     .then(function(json) {
         // Add your own result handling here
-        let response = JSON.stringify(json, null, "\t")
+        let response = JSON.stringify(json, null, "\t");
         //console.dir(json);
         console.dir(json);
         L.geoJSON(json).addTo(map);
@@ -204,7 +204,7 @@ function getDirectionsORS2(avoidingPolygons) {
         rotaResumo(json);
     })
     .catch(function(err) {
-        let response = JSON.stringify(err, null, "\t")
+        let response = JSON.stringify(err, null, "\t");
         console.error(response);
         // response = response.replace(/(\n)/g, '<br>');
         // response = response.replace(/(\t)/g, '&nbsp;&nbsp;');
@@ -276,4 +276,45 @@ function rotaResumo(directionsGeoJson){
   }   
   
 }
+
+
+$(document).ready(() => {
+  console.log('ready');
+  $.ajax({
+    type: 'GET',
+    url: config.CSV,
+    dataType: 'text',
+    success: function (csvData) {
+      makeGeoJSON(csvData);
+    },
+    error: function (request, status, error) {
+      console.log(request);
+      console.log(status);
+      console.log(error);
+    },
+  });
+});
+
+function makeGeoJSON(csvData) {
+  csv2geojson.csv2geojson(
+    csvData,
+    {
+      latfield: 'Latitude',
+      lonfield: 'Longitude',
+      delimiter: ',',
+    },
+    (err, data) => {
+      data.features.forEach((data, i) => {
+        data.properties.id = i;
+      });
+
+      cameraPoints = data;
+      console.log(cameraPoints);
+      
+      
+    },
+  );
+ 
+}
+
 
