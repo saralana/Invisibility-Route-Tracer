@@ -1,5 +1,18 @@
+#map { 
+  height: 80vh;
+}
+
+#rotas { 
+  height: 20vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+  
+
 body {
-    margin: 0;
+   margin: 0;
 }
 
 

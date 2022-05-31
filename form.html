@@ -1,83 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-
-      input[type=text], select, textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical;
-      }
-
-      label {
-        padding: 12px 12px 12px 0;
-        display: inline-block;
-      }
-
-      input[type=submit] {
-        background-color: #04AA6D;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        float: right;
-      }
-
-      input[type=submit]:hover {
-        background-color: #45a049;
-      }
-
-      .container {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
-      }
-
-      .col-25 {
-        float: left;
-        width: 25%;
-        margin-top: 6px;
-      }
-
-      .col-75 {
-        float: left;
-        width: 75%;
-        margin-top: 6px;
-      }
-
-      /* Clear floats after the columns */
-      .row:after {
-        content: "";
-        display: table;
-        clear: both;
-      }
-
-      /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-      @media screen and (max-width: 600px) {
-        .col-25, .col-75, input[type=submit] {
-          width: 100%;
-          margin-top: 0;
-        }
-      }
-    </style>
     <title>Pontos Cegos Busca</title>
-    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <link rel="stylesheet" href="css/form.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+    <style>
+      body { margin: 0; padding: 0; }
+      #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
   </head>
   <body>
-
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    
     <h2>Busque aqui!</h2>
     <p>Encontre uma rota que não passa por câmeras</p>
+    
+    
 
     <div class="container">
+      <div class="row">
+        <div class="col-25">
+          <label>Busque as coordenadas</label>
+        </div>
+        <div class="col-geocoder"><label>Partida:</label></div>
+        <div id="geocoderA" class="col-geocoder"></div>
+      
+        <div class="col-geocoder"><label>Chegada:</label></div>
+        <div id="geocoderB" class="col-geocoder"></div>
+      </div>
+    
+    
       <form action="index.html" method="get">
+      
       <div class="row">
         <div class="col-25">
           <label for="longA">Longitude A</label>
@@ -94,6 +52,7 @@
           <input type="text" id="latA" name="latA" placeholder="Latitude A..." value="-23.549274336622684">
         </div>
       </div>
+      
       <div class="row">
         <div class="col-25">
           <label for="longB">Longitude B</label>
@@ -109,7 +68,7 @@
         <div class="col-75">
           <input type="text" id="latB" name="latB" placeholder="Latitude B..." value="-23.544691004890126">
         </div>
-      </div>
+      </div>      
       <div class="row">
         <div class="col-25">
           <label for="profile">Veículo</label>
@@ -122,6 +81,60 @@
           </select>
         </div>
       </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="circleRadius">Raio de alcance da câmera</label>
+        </div>
+        <div class="col-75">
+          <select id="circleRadius" name="circleRadius">
+            <option value="2">2 metros</option>
+            <option value="5">5 metros</option>
+            <option value="10" selected>10 metros</option>
+            <option value="15">15 metros</option>
+            <option value="20">20 metros</option>
+            <option value="50">50 metros</option>            
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="circleResolution">Resolução do Círculo</label>
+        </div>
+        <div class="col-75">
+          <select id="circleResolution" name="circleResolution">
+            <option value="3">3 lados</option>
+            <option value="4">4 lados</option>
+            <option value="8">8 lados</option>
+            <option value="16">16 lados</option>
+            <option value="32" selected>32 lados</option>
+            <option value="64">64 lados</option>
+                       
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="iconsToggle">Exibir ícones</label>
+        </div>
+        <div class="col-75">
+          <select id="iconsToggle" name="iconsToggle">
+            <option value="1" selected>Sim</option>
+            <option value="0">Não</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="circleToggle">Exibir círculos</label>
+        </div>
+        <div class="col-75">
+          <select id="circleToggle" name="circleToggle">
+            <option value="1" selected>Sim</option>
+            <option value="0">Não</option>
+          </select>
+        </div>
+      </div>
+      
       <!-- <div class="row"> -->
         <!-- <div class="col-25"> -->
           <!-- <label for="subject">Subject</label> -->
@@ -136,7 +149,12 @@
       </div>
       </form>
     </div>
-
+    
+    
+    
+    <script src="js/config.js"></script>
+    <script src="js/form.js"></script>
+    
   </body>
 </html>
 
