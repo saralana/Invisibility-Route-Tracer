@@ -1,9 +1,9 @@
 #map { 
-  height: 80vh;
+  height: 80%;
 }
 
 #rotas { 
-  height: 20vh;
+  max-height: 20%;
   overflow-y: auto;
   padding-bottom: 20px;
   padding-left: 20px;
