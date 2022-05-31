@@ -71,6 +71,13 @@ function makeGeoJSON(csvData) {
       console.log(cameraPoints2);
       console.log(cameraPoints);
       
+      if(iconsToggle == true)
+        showMarkers(cameraPoints2);
+      
+      var avoidingCircles = pointsToCircles(cameraPoints2);
+      
+      getDirectionsORS2(avoidingCircles);
+      
     },
   );
  
@@ -174,8 +181,8 @@ function showMarkers(pointsFeature){
   //L.geoJSON(my_json).addTo(map);
 }
 
-if(iconsToggle == true)
-  showMarkers(cameraPoints2);
+// if(iconsToggle == true)
+  // showMarkers(cameraPoints2);
 
 
 function pointsToCircles(FeatureCollection) {
@@ -202,7 +209,7 @@ function pointsToCircles(FeatureCollection) {
 
 }
 
-var avoidingCircles = pointsToCircles(cameraPoints2);
+// var avoidingCircles = pointsToCircles(cameraPoints2);
 //console.dir(avoidingCircles);
 //L.geoJSON(avoidingCircles).addTo(map);
 
@@ -254,7 +261,7 @@ function getDirectionsORS2(avoidingPolygons) {
     });
     
 }
-getDirectionsORS2(avoidingCircles);
+// getDirectionsORS2(avoidingCircles);
 
 
 function rotaResumo(directionsGeoJson){
