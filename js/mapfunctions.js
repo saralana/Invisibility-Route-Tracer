@@ -12,12 +12,7 @@ var target = L.latLng(config.latCenter, config.lngCenter);
 // Create Leaflet map on map element.
 var map = L.map(element).setView(target, config.zoom);
 
-const googleLink = config.CSV;
-
-var csvGlobal;
-
 var cameraPoints;
-
 var directionsGeoJson;
 
 //GET variables from URL
@@ -50,7 +45,8 @@ $(document).ready(() => {
       console.log(status);
       console.log(error);
     },
-  });
+  });  
+  
 });
 
 function makeGeoJSON(csvData) {
@@ -67,14 +63,14 @@ function makeGeoJSON(csvData) {
         data.properties = {};
       });
 
-      cameraPoints2 = data;
-      console.log(cameraPoints2);
+      cameraPoints = data;
       console.log(cameraPoints);
+      //console.log(cameraPoints);
       
       if(iconsToggle == true)
-        showMarkers(cameraPoints2);
+        showMarkers(cameraPoints);
       
-      var avoidingCircles = pointsToCircles(cameraPoints2);
+      var avoidingCircles = pointsToCircles(cameraPoints);
       
       getDirectionsORS2(avoidingCircles);
       
