@@ -308,9 +308,9 @@ function makeGeoJSON(csvData) {
         data.properties.id = i;
       });
 
-      cameraPoints = data;
+      cameraPoints2 = data;
+      console.log(cameraPoints2);
       console.log(cameraPoints);
-      
       
     },
   );
