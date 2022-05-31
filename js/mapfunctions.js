@@ -20,7 +20,6 @@ var cameraPoints;
 
 var directionsGeoJson;
 
-
 //GET variables from URL
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -34,6 +33,49 @@ const circleRadius = urlParams.get('circleRadius'); //in meters (m), needs to co
 const circleResolution = urlParams.get('circleResolution');
 const iconsToggle = urlParams.get('iconsToggle');
 const circleToggle = urlParams.get('circleToggle');
+
+
+
+$(document).ready(() => {
+  console.log('ready');
+  $.ajax({
+    type: 'GET',
+    url: config.CSV,
+    dataType: 'text',
+    success: function (csvData) {
+      makeGeoJSON(csvData);
+    },
+    error: function (request, status, error) {
+      console.log(request);
+      console.log(status);
+      console.log(error);
+    },
+  });
+});
+
+function makeGeoJSON(csvData) {
+  csv2geojson.csv2geojson(
+    csvData,
+    {
+      latfield: 'Latitude',
+      lonfield: 'Longitude',
+      delimiter: ',',
+    },
+    (err, data) => {
+      data.features.forEach((data, i) => {
+        //data.properties.id = i;
+        data.properties = {};
+      });
+
+      cameraPoints2 = data;
+      console.log(cameraPoints2);
+      console.log(cameraPoints);
+      
+    },
+  );
+ 
+}
+
 
 
 
@@ -133,7 +175,7 @@ function showMarkers(pointsFeature){
 }
 
 if(iconsToggle == true)
-  showMarkers(cameraPoints);
+  showMarkers(cameraPoints2);
 
 
 function pointsToCircles(FeatureCollection) {
@@ -160,7 +202,7 @@ function pointsToCircles(FeatureCollection) {
 
 }
 
-var avoidingCircles = pointsToCircles(cameraPoints);
+var avoidingCircles = pointsToCircles(cameraPoints2);
 //console.dir(avoidingCircles);
 //L.geoJSON(avoidingCircles).addTo(map);
 
@@ -278,43 +320,5 @@ function rotaResumo(directionsGeoJson){
 }
 
 
-$(document).ready(() => {
-  console.log('ready');
-  $.ajax({
-    type: 'GET',
-    url: config.CSV,
-    dataType: 'text',
-    success: function (csvData) {
-      makeGeoJSON(csvData);
-    },
-    error: function (request, status, error) {
-      console.log(request);
-      console.log(status);
-      console.log(error);
-    },
-  });
-});
-
-function makeGeoJSON(csvData) {
-  csv2geojson.csv2geojson(
-    csvData,
-    {
-      latfield: 'Latitude',
-      lonfield: 'Longitude',
-      delimiter: ',',
-    },
-    (err, data) => {
-      data.features.forEach((data, i) => {
-        data.properties.id = i;
-      });
-
-      cameraPoints2 = data;
-      console.log(cameraPoints2);
-      console.log(cameraPoints);
-      
-    },
-  );
- 
-}
 
 
