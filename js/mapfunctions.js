@@ -1,6 +1,7 @@
 // Where you want to render the map.
 var element = document.getElementById('map');
 
+//DOM element da área de resultados
 var rotasElement = document.getElementById('rotas');
 
 // Height has to be set. You can do this in CSS too.
@@ -12,6 +13,7 @@ var target = L.latLng(config.latCenter, config.lngCenter);
 // Create Leaflet map on map element.
 var map = L.map(element).setView(target, config.zoom);
 
+// Variáveis globais para utilizar entre funções
 var cameraPoints;
 var directionsGeoJson;
 var avoidingCircles;
@@ -21,6 +23,8 @@ var circlesGeo = [];
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
+//lendo todos os parametros que estão vindo por GET e aparecendo na URL depois do ?
+//usar document.getElementById quando o form estiver dentro do mapa
 const profile = urlParams.get('profile');
 const longA = urlParams.get('longA');
 const latA = urlParams.get('latA');
@@ -32,9 +36,9 @@ const iconsToggle = urlParams.get('iconsToggle');
 const circleToggle = urlParams.get('circleToggle');
 
 
-
+//Quando a página carrega faz o download da planilha do Google e chama a função "makeGeoJSON(csvData)"
 $(document).ready(() => {
-  console.log('ready');
+  //console.log('ready');
   $.ajax({
     type: 'GET',
     url: config.CSV,
@@ -51,6 +55,7 @@ $(document).ready(() => {
   
 });
 
+//função que recebe o CSV do Google, transforma em GeoJson e chama as principais funções do mapa
 function makeGeoJSON(csvData) {
   csv2geojson.csv2geojson(
     csvData,
@@ -61,30 +66,29 @@ function makeGeoJSON(csvData) {
     },
     (err, data) => {
       data.features.forEach((data, i) => {
-        //data.properties.id = i;
-        data.properties = {};
+        //data.properties.id = i; //adiciona um ID único para cada câmera, não sendo utilizado agora
+        data.properties = {}; //usado para apagar o campo de properties removendo a coluna "COLETA" da planilha
       });
-
-      cameraPoints = data;
-      console.log(cameraPoints);
-      //console.log(cameraPoints);
       
-      if(iconsToggle == true)
+      //variável global recebe o geoJson com uma Feature Collection de points com todas as câmeras
+      cameraPoints = data;
+      //console.log(cameraPoints);
+
+      //Só mostra os markers das câmeras se for checked no formulário
+      if(iconsToggle == true){
         showMarkers(cameraPoints);
-            
+      }        
+      
+      //chama a função que transforma os pontos em polygons (circles), para usar no avoiding polygons
       avoidingCircles = pointsToCircles(cameraPoints);
       
+      //chama a função que chama o ORS para calcular e exibir as rotas 
       getDirectionsORS2(avoidingCircles);
-
       
-
-      //rotaResumo(invisibleRoute.rota);
     },
   );
  
 }
-
-
 
 
 // Add Sara MAPBOX tile layer to the Leaflet map.
@@ -98,75 +102,9 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(map);
 
 
-
-
-// function Google2CSV(googleLink){
-
-  // $.ajax({
-    // type: "GET",
-    // url: googleLink,
-    // dataType: "text",
-    // success: function (csvData) { 
-      // console.log(csvData);
-      // //makeGeoJSON(csvData);
-      // return csvData;
-    // }
-  // });
-
-// }
-
-// csvGlobal = Google2CSV(googleLink);
-
-
-
-// function makeGeoJSON(csvData) {
-  // csv2geojson.csv2geojson(csvData, {
-    // latfield: 'Latitude',
-    // lonfield: 'Longitude',
-    // delimiter: ','
-  // }, function (err, data) {
-    
-    // //cameraPoints = JSON.parse(data);
-    // console.log(data);
-    
-    // return data;
-  // });
-// }
-
-
-//var cameraPoints = JSON.parse();
-//console.log(cameraPoints);
-
-
-
-
+//função que exibe os marcadores das câmeras
 function showMarkers(pointsFeature){
-  // var camIcon = L.icon({
-    // iconUrl: 'media/camera.png',
-    //shadowUrl: 'leaf-shadow.png',
-
-    //iconSize:     [38, 95], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    //iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-  // });
-  
-  // var camIcon = new L.Icon({
-      // iconSize: [27, 27],
-      // iconAnchor: [13, 27],
-      // popupAnchor: [1, -24],
-      // iconUrl: 'media/camera.png'
-    // });
-  
-  // turf.featureEach(pointsFeature, function (currentFeature, featureIndex) {
-    // //=currentFeature
-    // //=featureIndex    
     
-    // L.marker(currentFeature.geometry.coordinates, {icon: camIcon});
-  // });
-  
-  
   my_json = L.geoJson(pointsFeature, {
     pointToLayer: function (feature, latlng) {
       var camIcon = new L.Icon({
@@ -182,52 +120,50 @@ function showMarkers(pointsFeature){
   //L.geoJSON(my_json).addTo(map);
 }
 
-// if(iconsToggle == true)
-  // showMarkers(cameraPoints2);
-
-
+//função que usa o TURF para transformar os pontos das câmeras em polygon (círculo)
+//utilizando o raio e a resolução (número de lados do polígono) informados no formulário.
 function pointsToCircles(FeatureCollection) {
   var circles = [];
   // var circlesGeo = [];
   turf.featureEach(FeatureCollection, function (currentFeature, featureIndex) {
     //=currentFeature
     //=featureIndex
-    //var center = [-75.343, 39.984];
-    var radius = circleRadius/1000;
-    //var options = {steps: 10, units: 'kilometers', properties: {foo: 'bar'}};
-    var options = {steps: circleResolution};
+     var radius = circleRadius/1000; // no form vem como metro, precisa converter em km
+    //var options = {steps: 10, units: 'kilometers', properties: {foo: 'bar'}}; 
+    var options = {steps: circleResolution}; // resolução do form
     var circle = turf.circle(currentFeature, radius, options);
-    circles.push(circle.geometry.coordinates);
-    circlesGeo.push(circle);
+    circles.push(circle.geometry.coordinates); //adiciona só as coordenadas para usar de retorno da função
+    circlesGeo.push(circle); //adiciona a feature inteira em geoJson
   });
   
   //console.log(circles);
   //var multiPoly = turf.multiPolygon(circles);
   //console.log(multiPoly);
+  //se no form está para exibir os raios de alcance da câmera, usamos o geoJson para adicionar os polígonos
   if(circleToggle == true)
     L.geoJSON(circlesGeo).addTo(map);
   return circles;
 
 }
 
-// var avoidingCircles = pointsToCircles(cameraPoints2);
-//console.dir(avoidingCircles);
-//L.geoJSON(avoidingCircles).addTo(map);
-
+////função que usa a API do Open Route Service para calcular as rotas (invisível e normal)
 function getDirectionsORS2(avoidingPolygons) {
   let orsDirections = new Openrouteservice.Directions({
     api_key: config.apiORS
   });
   
+  //altera o markador de partida para verde
   var markerA = L.marker([latA,longA]).addTo(map);
   markerA._icon.classList.add("huechangeA");
-  
+
+  //altera o markador de chegada para vermelho 
   var markerB = L.marker([latB,longB]).addTo(map);
   markerB._icon.classList.add("huechangeB");
   
+  //calcula a rota usado os circulos gerados como avoid_polygons
   orsDirections.calculate({
-    coordinates: [[longA,latA],[longB,latB]],
-    profile: profile,
+    coordinates: [[longA,latA],[longB,latB]], //lat e long do form
+    profile: profile, //profile do form
     //extra_info: ["waytype", "steepness"],
     format: "geojson",
     api_version: 'v2',
@@ -235,25 +171,26 @@ function getDirectionsORS2(avoidingPolygons) {
     options:{
       avoid_polygons:{
         type: "MultiPolygon",
-        coordinates: avoidingPolygons
+        coordinates: avoidingPolygons //gerados na função "pointsToCircles" e recebido por parâmetro na função
       }
     }
   })
     .then(function(json) {
-        // Add your own result handling here
-        let response = JSON.stringify(json, null, "\t");
-        console.log(response);
-        console.dir(json);
+        // se conseguir fazer a busca com sucesso, adiciona a rota no mapa e pede para calcular a rota padrão ("normal")
+        
+        //let response = JSON.stringify(json, null, "\t");
+        //console.log(response);
+        //console.dir(json);
         L.geoJSON(json, {
           style:{
             // "color": "#3388ff",
-            "color": "#00ff00",
+            "color": "#00ff00", //verde
             "opacity": 0.8
           }
-        }).addTo(map);
+        }).addTo(map); //adiciona rota invisível de verde
         //rotaResumo(json);
 
-
+        // usa return para chamar o cálculo da rota padrão, atualmente como "shortest"
         return orsDirections.calculate({
           coordinates: [[longA,latA],[longB,latB]],
           profile: profile,
@@ -266,30 +203,33 @@ function getDirectionsORS2(avoidingPolygons) {
           }
         })
           .then(function(json2) {
-              // Add your own result handling here
-              let response = JSON.stringify(json2, null, "\t");
-              console.log(response);
-              console.dir(json2);
+              // se conseguir fazer a busca com sucesso, adiciona a rota no mapa e chama a função que adiciona o resumo de rota
+              //let response = JSON.stringify(json2, null, "\t");
+              //console.log(response);
+              //console.dir(json2);
               L.geoJSON(json2, {
                 style:{
-                  "color": "#ff0000",
+                  "color": "#ff0000", //vermelho
                   "opacity": 0.65
                 }
-              }).addTo(map);
-              rotaResumo(json,json2);
+              }).addTo(map); //adiciona rota padrão no mapa de vermelho
+              rotaResumo(json,json2); //chama a função que adiciona o "detalhamento de rota" na barra inferior/lateral
           })
           .catch(function(err) {
-              let response = JSON.stringify(err, null, "\t");
-              console.error(response);
+              //let response = JSON.stringify(err, null, "\t");
+              //console.error(response);
               //console.log(`Status Error NormalRoute: ${err.response.status}`);
+              const routeNormalError = document.createElement('span');
+              routeNormalError.innerText = "Desculpe, ocorreu um erro ao calcular a rota";
+              rotasElement.appendChild(routeNormalError);
           });
 
 
 
     })
     .catch(function(err) {
-        let response = JSON.stringify(err, null, "\t");
-        console.error(response);
+        //let response = JSON.stringify(err, null, "\t");
+        //console.error(response);
 
         const routeError = document.createElement('span');
         routeError.innerText = "Nenhuma rota encontrada com os parâmetros informados, favor refazer a busca";
@@ -299,7 +239,7 @@ function getDirectionsORS2(avoidingPolygons) {
 }
 // getDirectionsORS2(avoidingCircles);
 
-
+// função que exibe os resumos das rotas, calcula as diferenças e o número de câmeras que a rota padrão possui
 function rotaResumo(directionsGeoJson,directionsGeoJson2){
   //console.dir(directionsGeoJson);
   //console.dir(directionsGeoJson.features[0].properties.segments[0]);
@@ -316,6 +256,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   let rota2Duration = rota2.duration + " segundos";
   let rota2Steps = rota2.steps;
 
+  //calcula a diferença das duas rotas
   let distanceDiff = rota.distance - rota2.distance;
   let durationDiff = rota.duration - rota2.duration;
     
@@ -344,7 +285,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(document.createElement('br'));
 
   const normalTitle = document.createElement('h3');
-  normalTitle.innerText = "Normal";
+  normalTitle.innerText = "Default";
   rotasElement.appendChild(normalTitle);
   
   const summary2Distance = document.createElement('span');
@@ -357,14 +298,13 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   summary2Duration.innerText = "Total duration: " + rota2Duration;
   rotasElement.appendChild(summary2Duration);
 
+  //gera a feature collection dos círculos e calcula o número de intersecções com a rota padrão
   var featureCirclesGeo = turf.featureCollection(circlesGeo);
-
-  console.log(featureCirclesGeo);
-  //console.dir(directionsGeoJson2);
   var intersects = turf.lineIntersect(featureCirclesGeo, directionsGeoJson2);
-  console.dir(intersects);
+
+  //como a rota normalmente corta cada círclo em 2 pontos, precisa dividir por 2 e arredondar para cima
   var routeCameras = (intersects.features.length/2).toFixed();
-  console.log(routeCameras);
+
 
   // //exibe marker azul nos intersects da rota normal com as bordas dos círculos das câmeras
   // L.geoJson(intersects, {
@@ -392,6 +332,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(invisibleStepsTitle);
 
 
+  // exibe os passos de cada rota
   let i = 1;
   for(var step in rotaSteps) {
     //console.log(i);
