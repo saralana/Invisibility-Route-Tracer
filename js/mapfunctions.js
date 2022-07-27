@@ -14,6 +14,8 @@ var map = L.map(element).setView(target, config.zoom);
 
 var cameraPoints;
 var directionsGeoJson;
+var avoidingCircles;
+var circlesGeo = [];
 
 //GET variables from URL
 const queryString = window.location.search;
@@ -69,11 +71,14 @@ function makeGeoJSON(csvData) {
       
       if(iconsToggle == true)
         showMarkers(cameraPoints);
-      
-      var avoidingCircles = pointsToCircles(cameraPoints);
+            
+      avoidingCircles = pointsToCircles(cameraPoints);
       
       getDirectionsORS2(avoidingCircles);
+
       
+
+      //rotaResumo(invisibleRoute.rota);
     },
   );
  
@@ -183,7 +188,7 @@ function showMarkers(pointsFeature){
 
 function pointsToCircles(FeatureCollection) {
   var circles = [];
-  var circlesGeo = [];
+  // var circlesGeo = [];
   turf.featureEach(FeatureCollection, function (currentFeature, featureIndex) {
     //=currentFeature
     //=featureIndex
@@ -213,10 +218,6 @@ function getDirectionsORS2(avoidingPolygons) {
   let orsDirections = new Openrouteservice.Directions({
     api_key: config.apiORS
   });
-
-  // var node = document.getElementById("driving-car-directions");
-  
-
   
   var markerA = L.marker([latA,longA]).addTo(map);
   markerA._icon.classList.add("huechangeA");
@@ -230,6 +231,7 @@ function getDirectionsORS2(avoidingPolygons) {
     //extra_info: ["waytype", "steepness"],
     format: "geojson",
     api_version: 'v2',
+    //maneuvers: true,
     options:{
       avoid_polygons:{
         type: "MultiPolygon",
@@ -240,36 +242,82 @@ function getDirectionsORS2(avoidingPolygons) {
     .then(function(json) {
         // Add your own result handling here
         let response = JSON.stringify(json, null, "\t");
-        //console.dir(json);
+        console.log(response);
         console.dir(json);
-        L.geoJSON(json).addTo(map);
-        // response = response.replace(/(\n)/g, '<br>');
-        // response = response.replace(/(\t)/g, '&nbsp;&nbsp;');
-        //node.innerHTML = "<h3>Response</h3><p>" + response + "</p>";
-        rotaResumo(json);
+        L.geoJSON(json, {
+          style:{
+            // "color": "#3388ff",
+            "color": "#00ff00",
+            "opacity": 0.8
+          }
+        }).addTo(map);
+        //rotaResumo(json);
+
+
+        return orsDirections.calculate({
+          coordinates: [[longA,latA],[longB,latB]],
+          profile: profile,
+          format: "geojson",
+          api_version: 'v2',
+          // preference: "recommended",
+          // preference: "fastest",
+          preference: "shortest",
+          options:{
+          }
+        })
+          .then(function(json2) {
+              // Add your own result handling here
+              let response = JSON.stringify(json2, null, "\t");
+              console.log(response);
+              console.dir(json2);
+              L.geoJSON(json2, {
+                style:{
+                  "color": "#ff0000",
+                  "opacity": 0.65
+                }
+              }).addTo(map);
+              rotaResumo(json,json2);
+          })
+          .catch(function(err) {
+              let response = JSON.stringify(err, null, "\t");
+              console.error(response);
+              //console.log(`Status Error NormalRoute: ${err.response.status}`);
+          });
+
+
+
     })
     .catch(function(err) {
         let response = JSON.stringify(err, null, "\t");
         console.error(response);
-        // response = response.replace(/(\n)/g, '<br>');
-        // response = response.replace(/(\t)/g, '&nbsp;&nbsp;');
-        //node.innerHTML = "<h3>Error</h3><p>" + response + "</p>";
+
+        const routeError = document.createElement('span');
+        routeError.innerText = "Nenhuma rota encontrada com os parâmetros informados, favor refazer a busca";
+        rotasElement.appendChild(routeError);
+        //console.log(`Status Error InvisibleRoute: ${err.response.status}`);
     });
-    
 }
 // getDirectionsORS2(avoidingCircles);
 
 
-function rotaResumo(directionsGeoJson){
+function rotaResumo(directionsGeoJson,directionsGeoJson2){
   //console.dir(directionsGeoJson);
   //console.dir(directionsGeoJson.features[0].properties.segments[0]);
   
   let rota = directionsGeoJson.features[0].properties.segments[0];
+  let rota2 = directionsGeoJson2.features[0].properties.segments[0];
   //console.dir(rota);
   
   let rotaDistance = rota.distance + " metros";
   let rotaDuration = rota.duration + " segundos";
   let rotaSteps = rota.steps;
+
+  let rota2Distance = rota2.distance + " metros";
+  let rota2Duration = rota2.duration + " segundos";
+  let rota2Steps = rota2.steps;
+
+  let distanceDiff = rota.distance - rota2.distance;
+  let durationDiff = rota.duration - rota2.duration;
     
   //console.log(rotaDistance);
   //console.log(rotaDuration);
@@ -278,17 +326,59 @@ function rotaResumo(directionsGeoJson){
   const summaryTitle = document.createElement('h2');
   summaryTitle.innerText = "Summary";
   rotasElement.appendChild(summaryTitle);
+
+  const invisibleTitle = document.createElement('h3');
+  invisibleTitle.innerText = "Invisible";
+  rotasElement.appendChild(invisibleTitle);
   
   const summaryDistance = document.createElement('span');
-  summaryDistance.innerText = "Total distance: " + rotaDistance;
+  summaryDistance.innerText = "Total distance: " + rotaDistance + " (" + distanceDiff.toFixed(1) + " metros a mais)";
   rotasElement.appendChild(summaryDistance);
   
   rotasElement.appendChild(document.createElement('br'));
   
   const summaryDuration = document.createElement('span');
-  summaryDuration.innerText = "Total distance: " + rotaDuration;
+  summaryDuration.innerText = "Total duration: " + rotaDuration + " (" + durationDiff.toFixed(1) + " segundos a mais)";
   rotasElement.appendChild(summaryDuration);  
   
+  rotasElement.appendChild(document.createElement('br'));
+
+  const normalTitle = document.createElement('h3');
+  normalTitle.innerText = "Normal";
+  rotasElement.appendChild(normalTitle);
+  
+  const summary2Distance = document.createElement('span');
+  summary2Distance.innerText = "Total distance: " + rota2Distance;
+  rotasElement.appendChild(summary2Distance);
+  
+  rotasElement.appendChild(document.createElement('br'));
+  
+  const summary2Duration = document.createElement('span');
+  summary2Duration.innerText = "Total duration: " + rota2Duration;
+  rotasElement.appendChild(summary2Duration);
+
+  var featureCirclesGeo = turf.featureCollection(circlesGeo);
+
+  console.log(featureCirclesGeo);
+  //console.dir(directionsGeoJson2);
+  var intersects = turf.lineIntersect(featureCirclesGeo, directionsGeoJson2);
+  console.dir(intersects);
+  var routeCameras = (intersects.features.length/2).toFixed();
+  console.log(routeCameras);
+
+  // //exibe marker azul nos intersects da rota normal com as bordas dos círculos das câmeras
+  // L.geoJson(intersects, {
+  //   pointToLayer: function (feature, latlng) {
+  //     return L.marker(latlng).addTo(map);
+  //   }
+  // });
+
+  rotasElement.appendChild(document.createElement('br'));
+
+  const summaryRouteCameras = document.createElement('span');
+  summaryRouteCameras.innerText = "Total cameras: " + routeCameras;
+  rotasElement.appendChild(summaryRouteCameras);
+
   rotasElement.appendChild(document.createElement('br'));
   rotasElement.appendChild(document.createElement('br'));  
   
@@ -296,6 +386,10 @@ function rotaResumo(directionsGeoJson){
   const stepsTitle = document.createElement('h2');
   stepsTitle.innerText = "Steps";
   rotasElement.appendChild(stepsTitle);
+
+  const invisibleStepsTitle = document.createElement('h3');
+  invisibleStepsTitle.innerText = "Invisible";
+  rotasElement.appendChild(invisibleStepsTitle);
 
 
   let i = 1;
@@ -318,10 +412,33 @@ function rotaResumo(directionsGeoJson){
     rotasElement.appendChild(document.createElement('br'));
     
     i++;
-  }   
+  }
+
+  const normalStepsTitle = document.createElement('h3');
+  normalStepsTitle.innerText = "Normal";
+  rotasElement.appendChild(normalStepsTitle);
+
+
+  let j = 1;
+  for(var step in rota2Steps) {
+    //console.log(j);
+    let instruction = rota2Steps[step].instruction;
+    let distance = rota2Steps[step].distance + " metros";
+    let duration = rota2Steps[step].duration + " segundos";
+    
+    //console.log(instruction);
+    //console.log(distance);
+    //console.log(duration);
+    
+    //console.log(j + ": " + instruction + " (" + distance + " e " + duration + ").");   
+    
+    
+    const stepParagraph = document.createElement('span');
+    stepParagraph.innerText = j + ": " + instruction + " (" + distance + " e " + duration + ").";
+    rotasElement.appendChild(stepParagraph);
+    rotasElement.appendChild(document.createElement('br'));
+    
+    j++;
+  }  
   
 }
-
-
-
-
