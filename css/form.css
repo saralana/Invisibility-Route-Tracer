@@ -2,6 +2,8 @@
   box-sizing: border-box;
 }
 
+body { margin: 0; padding: 0; }
+
 input[type=text], select, textarea {
   width: 100%;
   padding: 12px;
@@ -85,7 +87,18 @@ input[type=submit]:hover {
 }
 
 svg.mapboxgl-ctrl-geocoder--icon {
-    left: auto;
-    right: 5px;
+  left: auto;
+  right: 5px;
 }
 
+.geocoderA {
+  z-index: 2;
+}
+
+.geocoderB {
+  z-index: 1;
+}
+
+.geocoderB .mapboxgl-ctrl{
+  z-index: 0;
+}
