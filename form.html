@@ -3,7 +3,18 @@
   <head>
     <title>Blind Spots | Route Tracer</title>
     <link rel="stylesheet" href="css/form.css" />
-
+      
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+    <script src="js/ors-js-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <script src="https://npmcdn.com/csv2geojson@latest/csv2geojson.js"></script>
+      
+      
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
@@ -13,123 +24,95 @@
     </style>
   </head>
   <body>
+      
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
     
- 
+    <div id="map"></div>
+      
     <div class="container">
-    <div class="row">
-        <div class="col-20">
-            <img src="../media/camera.png">
-        </div>
-        <div class="col-80">
-            <h2>BLIND SPOTS | ROUTE TRACER</h2>
-            <p>Find here your invisibility route</p>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-logo">
+                    <img src="../media/camera.png">
+                </div>
+                <div class="col-title">
+                    <h2>BLIND SPOTS<br>ROUTE TRACER</h2>
+                </div>
+            </div>
+
+        <p>Trace here an invisibility route</p>
         
-      <div class="row">
-        <div id="geocoderA" class="col-geocoder geocoderA"></div>     
-        <div id="geocoderB" class="col-geocoder geocoderB"></div>
-      </div>
-    
-    
+        
       <form action="index.html" method="get">
+          
+          
+        <div id="geocoderA" class="col-geocoder geocoderA"></div>
+        <div class="row">
+            <div class="col-25">
+              <label for="latA">Lat.</label>
+            </div>
+            <div class="col-75">
+              <input type="text" id="latA" name="latA" placeholder="Latitude A" value="-23.549274336622684">
+            </div>
+            <div class="col-25">
+              <label for="longA">Long.</label>
+            </div>
+            <div class="col-75">
+              <input type="text" id="longA" name="longA" placeholder="Longitude A" value="-46.63383007049561">
+            </div>
+            
+        </div>
+        <div id="geocoderB" class="col-geocoder geocoderB"></div>
       
       <div class="row">
         <div class="col-25">
-          <label for="longA">Longitude A</label>
+          <label for="latB">Lat.</label>
         </div>
         <div class="col-75">
-          <input type="text" id="longA" name="longA" placeholder="Longitude A..." value="-46.63383007049561">
+          <input type="text" id="latB" name="latB" placeholder="Latitude B" value="-23.544691004890126">
         </div>
+          <br>
         <div class="col-25">
-          <label for="longB">Longitude B</label>
+          <label for="longB">Long.</label>
         </div>
         <div class="col-75">
-          <input type="text" id="longB" name="longB" placeholder="Longitude B..." value="-46.64096949118043">
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-25">
-          <label for="latA">Latitude A</label>
-        </div>
-        <div class="col-75">
-          <input type="text" id="latA" name="latA" placeholder="Latitude A..." value="-23.549274336622684">
-        </div>
-        <div class="col-25">
-          <label for="latB">Latitude B</label>
-        </div>
-        <div class="col-75">
-          <input type="text" id="latB" name="latB" placeholder="Latitude B..." value="-23.544691004890126">
+          <input type="text" id="longB" name="longB" placeholder="Longitude B" value="-46.64096949118043">
         </div>
       </div>    
-      <hr>
+          <br><br>
+        <input type="submit" value="DIRECTIONS">   
+          <br><br>
       <h3>OPTIONS</h3>
-      <div class="row">
-        <div class="col-25">
-          <label for="profile">Transport</label>
-        </div>
-        <div class="col-75">
           <select id="profile" name="profile">
             <option value="foot-walking">Walking</option>
             <option value="cycling-regular">Bike</option>
             <option value="driving-car">Car</option>
           </select>
-        </div>
-        <div class="col-25">
-          <label for="circleRadius">Camera range</label>
-        </div>
-        <div class="col-75">
-          <select id="circleRadius" name="circleRadius">
-            <option value="2">2 meters</option>
-            <option value="5">5 meters</option>
-            <option value="10" selected>10 meters</option>
-            <option value="15">15 meters</option>
-            <option value="20">20 meters</option>
-            <option value="50">50 meters</option>            
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-25">
-          <label for="iconsToggle">Show icons</label>
-        </div>
-        <div class="col-75">
-          <select id="iconsToggle" name="iconsToggle">
-            <option value="1" selected>Yes</option>
-            <option value="0">No</option>
-          </select>
-        </div>
-        <div class="col-25">
-          <label for="circleToggle">Show circles</label>
-        </div>
-        <div class="col-75">
-          <select id="circleToggle" name="circleToggle">
-            <option value="1" selected>Yes</option>
-            <option value="0">No</option>
-          </select>
-        </div>
           
-      </div>
-
-      <div class="row">
-        <div class="col-25">
-          <label for="circleResolution">Circle Resolution</label>
-        </div>
-        <div class="col-75">
-          <select id="circleResolution" name="circleResolution">
-            <option value="3">3 sides</option>
-            <option value="4">4 sides</option>
-            <option value="8">8 sides</option>
-            <option value="16">16 sides</option>
-            <option value="32" selected>32 sides</option>
-            <option value="64">64 sides</option>
-                       
+          <select id="circleRadius" name="circleRadius">
+            <option value="2">Camera range: 2 meters</option>
+            <option value="5">Camera range: 5 meters</option>
+            <option value="10">Camera range: 10 meters</option>
+            <option value="15" selected>Camera range: 15 meters</option>
+            <option value="20">Camera range: 20 meters</option>
+            <option value="50">Camera range: 50 meters</option>          
+         </select>
+          <select id="iconsToggle" name="iconsToggle">
+            <option value="1" selected>Show icons</option>
+            <option value="0">Hide icons</option>
           </select>
-        </div>
-      </div>
+          <select id="circleToggle" name="circleToggle">
+            <option value="1" selected>Show circles</option>
+            <option value="0">Hide circles</option>
+          </select>          
+          <select id="circleResolution" name="circleResolution">
+            <option value="3">3 sides circles resolution</option>
+            <option value="4">4 sides circles resolution</option>
+            <option value="8">8 sides circles resolution</option>
+            <option value="16">16 sides circles resolution</option>
+            <option value="32" selected>32 sides circles resolution</option>
+            <option value="64">64 sides circles resolution</option>         
+          </select>
       
       <!-- <div class="row"> -->
         <!-- <div class="col-25"> -->
@@ -139,18 +122,13 @@
           <!-- <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea> -->
         <!-- </div> -->
       <!-- </div> -->
-      <br>
-      <div class="row">
-        <input type="submit" value="DIRECTIONS">
-      </div>
-      </form>
 
-                   
+      </form>      
     </div>   
-    
-    
+
     <script src="js/config.js"></script>
     <script src="js/form.js"></script>
+    <script src="js/mapfunctions-form.js"></script>
     
   </body>
 </html>

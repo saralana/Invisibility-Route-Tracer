@@ -9,10 +9,11 @@ const config = {
   
     apiORS: '5b3ce3597851110001cf62487a9231f0aafb4d82afe9dd031a26d5d5',
   CSV: 'https://docs.google.com/spreadsheets/d/1blQipxbPUX1n2n8ZU5QunKnfmqdIlyXdD7kIxTUsYJw/gviz/tq?tqx=out:csv&sheet=Sheet1',
-  latCenter: '-23.549000',
+  latCenter: '-23.547500',
   lngCenter: '-46.639000',
-  zoom: 15,
+  zoom: 16,
   maxZomm: 18,
+  minZomm: 15,
   flyzoom: 15,
   geocoderzoom: 15,
   flyspeed: 0.3,

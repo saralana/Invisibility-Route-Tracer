@@ -32,9 +32,44 @@ body {
 
 
 img.huechangeA {
-  filter: hue-rotate(250deg);
+  filter: hue-rotate(-0.25turn);
+    width: 50px;
 }
 
 img.huechangeB {
-  filter: hue-rotate(150deg);
+  filter: hue-rotate(100deg);
+}
+
+.col-logo {
+    float: left;
+    width: 20%;
+    margin-top:4%;
+}
+
+.col-logo img{
+    width:100%;
+}
+
+.col-title {
+    float: left;
+    width: 60%;
+    padding-left:2%;
+}
+
+a, a:visited, a:hover, a:active {
+  color: #2057b5;
+    text-decoration: none;
+}
+hr{
+    border:none;
+    border-bottom: 1px solid white;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    width: 50%;    
+}
+
+
+.content {
+  display: none;
+  overflow: hidden;
 }

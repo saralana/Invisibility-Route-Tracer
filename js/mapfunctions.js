@@ -3,6 +3,13 @@ var element = document.getElementById('map');
 
 //DOM element da área de resultados
 var rotasElement = document.getElementById('rotas');
+const contentElement = document.getElementsByClassName('content');
+var compareElement = document.getElementsByClassName('compare');
+var contentElement1 = contentElement[0];
+var contentElement2 = contentElement[1];
+const collapsibleElement = document.getElementsByClassName('collapsible');
+var collapsElement1 = collapsibleElement[0];
+var collapsElement2 = collapsibleElement[1];
 
 // Height has to be set. You can do this in CSS too.
 //element.style = 'height:100vh;';
@@ -12,6 +19,9 @@ var target = L.latLng(config.latCenter, config.lngCenter);
 
 // Create Leaflet map on map element.
 var map = L.map(element).setView(target, config.zoom);
+
+map.options.minZoom = 15;
+map.options.maxZoom = 18;
 
 // Variáveis globais para utilizar entre funções
 var cameraPoints;
@@ -39,7 +49,7 @@ const circleToggle = urlParams.get('circleToggle');
 
 //Quando a página carrega faz o download da planilha do Google e chama a função "makeGeoJSON(csvData)"
 $(document).ready(() => {
-  //console.log('ready');
+  console.log('ready');
   $.ajax({
     type: 'GET',
     url: config.CSV,
@@ -96,12 +106,12 @@ function makeGeoJSON(csvData) {
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: config.maxZoom,
+    minZoom: config.minZoom,
     id: config.styleId,
     tileSize: 512,
     zoomOffset: -1,
     accessToken: config.accessToken,
 }).addTo(map);
-
 
 //função que exibe os marcadores das câmeras
 function showMarkers(pointsFeature){
@@ -154,13 +164,33 @@ function getDirectionsORS2(avoidingPolygons) {
     api_key: config.apiORS
   });
   
+  var aIcon = new L.Icon({
+        iconSize: [75, 75],
+        iconAnchor: [60, 60],
+        zIndexOffset: 5000,
+        //popupAnchor: [1, -24],
+        iconUrl: 'media/A.png'
+  });    
+    
+  var bIcon = new L.Icon({
+        iconSize: [75, 75],
+        iconAnchor: [60, 60],
+        zIndexOffset: 6000,
+        //popupAnchor: [1, -24],
+        iconUrl: 'media/B.png'
+  });  
+    
+  //marcador de partida
+  var markerA = L.marker([latA,longA], {icon: aIcon}).addTo(map);
   //altera o markador de partida para verde
-  var markerA = L.marker([latA,longA]).addTo(map);
-  markerA._icon.classList.add("huechangeA");
-
+  //markerA._icon.classList.add("huechangeA");
+    
+    
+  //marcador de chegada
   //altera o markador de chegada para vermelho 
-  var markerB = L.marker([latB,longB]).addTo(map);
-  markerB._icon.classList.add("huechangeB");
+  var markerB = L.marker([latB,longB], {icon: bIcon}).addTo(map);
+  //markerB._icon.classList.add("huechangeB");
+
   
   //calcula a rota usado os circulos gerados como avoid_polygons
   orsDirections.calculate({
@@ -186,8 +216,8 @@ function getDirectionsORS2(avoidingPolygons) {
         L.geoJSON(json, {
           style:{
             // "color": "#3388ff",
-            "color": "#00ff00", //verde
-            "opacity": 0.8
+            "color": "#ffe700", //amarelo
+            "opacity": 1
           }
         }).addTo(map); //adiciona rota invisível de verde
         //rotaResumo(json);
@@ -211,8 +241,8 @@ function getDirectionsORS2(avoidingPolygons) {
               //console.dir(json2);
               L.geoJSON(json2, {
                 style:{
-                  "color": "#ff0000", //vermelho
-                  "opacity": 0.65
+                  "color": "#00ffe3", //turquesa 
+                  "opacity": 1
                 }
               }).addTo(map); //adiciona rota padrão no mapa de vermelho
               rotaResumo(json,json2); //chama a função que adiciona o "detalhamento de rota" na barra inferior/lateral
@@ -222,7 +252,7 @@ function getDirectionsORS2(avoidingPolygons) {
               //console.error(response);
               //console.log(`Status Error NormalRoute: ${err.response.status}`);
               const routeNormalError = document.createElement('span');
-              routeNormalError.innerText = "Desculpe, ocorreu um erro ao calcular a rota";
+              routeNormalError.innerText = "Sorry. We couldn't trace your route. This is a beta version but soon a complete version will be launched.";
               rotasElement.appendChild(routeNormalError);
           });
 
@@ -234,7 +264,7 @@ function getDirectionsORS2(avoidingPolygons) {
         //console.error(response);
 
         const routeError = document.createElement('span');
-        routeError.innerText = "Nenhuma rota encontrada com os parâmetros informados, favor refazer a busca";
+        routeError.innerText = "No route found with these parameters. Please change A or B points and try to retrace your route.";
         rotasElement.appendChild(routeError);
         //console.log(`Status Error InvisibleRoute: ${err.response.status}`);
     });
@@ -275,7 +305,10 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(invisibleTitle);
   
   const summaryDistance = document.createElement('span');
-  summaryDistance.innerText = "Total distance: " + rotaDistance + " (" + distanceDiff.toFixed(1) + " meters more than the surveilled route)";
+  const summaryDistanceTitle = document.createElement('p');
+  summaryDistanceTitle.innerText = "Total distance: "; 
+  summaryDistanceTitle.style.fontStyle = "italic";
+  summaryDistance.innerText = rotaDistance + " (" + distanceDiff.toFixed(1) + " meters more than the surveilled route)";
   rotasElement.appendChild(summaryDistance);
   
   rotasElement.appendChild(document.createElement('br'));
@@ -324,14 +357,15 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(document.createElement('br'));
   rotasElement.appendChild(document.createElement('br'));  
   
-  
+  /*
   const stepsTitle = document.createElement('h2');
   stepsTitle.innerText = "STEPS";
   rotasElement.appendChild(stepsTitle);
-
+  */
+    
   const invisibleStepsTitle = document.createElement('h3');
-  invisibleStepsTitle.innerText = "INVISIBLE ROUTE";
-  rotasElement.appendChild(invisibleStepsTitle);
+  invisibleStepsTitle.innerText = "INVISIBLE ROUTE ˅";
+  collapsElement1.appendChild(invisibleStepsTitle);
 
 
   // exibe os passos de cada rota
@@ -351,17 +385,19 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
     
     const stepParagraph = document.createElement('span');
     stepParagraph.innerText = i + ": " + instruction + " (" + distance + " e " + duration + ").";
-    rotasElement.appendChild(stepParagraph);
-    rotasElement.appendChild(document.createElement('br'));
+    contentElement1.appendChild(stepParagraph);
+    contentElement1.appendChild(document.createElement('br'));
+    contentElement1.appendChild(document.createElement('br'));
     
     i++;
   }
 
+
   const normalStepsTitle = document.createElement('h3');
-  normalStepsTitle.innerText = "SURVEILLED ROUTE";
-  rotasElement.appendChild(normalStepsTitle);
-
-
+  normalStepsTitle.innerText = "SURVEILLED ROUTE ˅";  
+  collapsElement2.appendChild(normalStepsTitle);
+  
+      
   let j = 1;
   for(var step in rota2Steps) {
     //console.log(j);
@@ -374,14 +410,28 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
     //console.log(duration);
     
     //console.log(j + ": " + instruction + " (" + distance + " e " + duration + ").");   
-    
-    
+
     const stepParagraph = document.createElement('span');
-    stepParagraph.innerText = j + ": " + instruction + " (" + distance + " e " + duration + ").";
-    rotasElement.appendChild(stepParagraph);
-    rotasElement.appendChild(document.createElement('br'));
-    
+    stepParagraph.innerText = j + ": " + instruction + " (" + distance + " and " + duration + ").";
+    contentElement2.appendChild(stepParagraph);
+    contentElement2.appendChild(document.createElement('br'));
+    contentElement2.appendChild(document.createElement('br'));
+
     j++;
-  }  
-  
+  }
+}
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
 }

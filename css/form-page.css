@@ -5,14 +5,11 @@
 body { 
     height: 100vh;
     margin: 0; 
+    padding: 3.5% 15%; 
     background-color: #f17ea3;
     color: #2057b5;
     font-family: "Source Code Pro","Courier New","Lucida Sans Typewriter",monospace;
     }
-
-h3{
-    color:white;
-}
 
 input[type=text], select, textarea {
   width: 100%;
@@ -42,7 +39,6 @@ hr{
 label {
   padding: 12px 12px 12px 0;
   display: inline-block;
-    font-size:11px;
 }
 
 input[type=submit] {
@@ -52,8 +48,8 @@ input[type=submit] {
   border: none;
   border-radius: 0px;
   cursor: pointer;
+  float: right;
   font-family: "Source Code Pro","Courier New","Lucida Sans Typewriter",monospace;
-  width: 90%;
 }
 
 input[type=submit]:hover {
@@ -64,50 +60,25 @@ input[type=submit]:hover {
   border-radius: 4px;
   background-color: #ffbad3;
   padding: 20px;
-  max-height: 100%;
-  overflow-y: auto;
-  padding-top: 50px;
-  padding-bottom: 20px;
-  padding-left: 2%;
-  padding-right: 2%;
-  position: absolute;
-  width: 26%;
-  height:100vh;
-  top: 0;
-  left: 0;
 }
 
 .col-25 {
   float: left;
-  width: 10%;
+  width: 20%;
   margin-top: 6px;
   margin-left: 10px;
 }
 
 .col-geocoder {
     float: left;
-    width: 100%;
-    margin-top: 4%;
+    width: 50%;
+    margin-top: 26px;
     padding: 10px;
-}
-.col-title {
-    float: left;
-    width: 60%;
-    padding-left:2%;
-}
-.col-logo {
-    float: left;
-    width: 20%;
-    margin-top:4%;
-}
-
-.col-logo img{
-    width:100%;
 }
 
 .col-75 {    
     float: left;
-    width: 30%;
+    width: 25%;
     margin-top: 6px;
     margin-right: 1.5%;
 }
@@ -118,6 +89,9 @@ input[type=submit]:hover {
     margin-right: 1.5%;
 }
 
+.col-20 img{
+    width: 100%;
+} 
 .col-80 {    
     float: left;
     width: 80%;
@@ -131,7 +105,6 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
-
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
@@ -171,7 +144,7 @@ input[type=submit]:hover {
 svg.mapboxgl-ctrl-geocoder--icon {
   left: auto;
   right: 5px;
-  color:red;
+  color:hotpink;
   background-color: transparent !important;
 }
 
@@ -185,22 +158,4 @@ svg.mapboxgl-ctrl-geocoder--icon {
 
 .geocoderB .mapboxgl-ctrl{
   z-index: 0;
-}
-
-
-
-
-#map { 
-  height: 100%;
-  width: 75%;
-  margin-left:25%;
-}
-
-
-img.huechangeA {
-  filter: hue-rotate(250deg);
-}
-
-img.huechangeB {
-  filter: hue-rotate(150deg);
 }

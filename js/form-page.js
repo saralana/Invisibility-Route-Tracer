@@ -13,8 +13,8 @@ const latAGeo = document.getElementById('latA');
  
 // Add geocoder result to container.
 geocoderA.on('result', (e) => {
-  lngAGeo.value = e.result.center[1];
-  latAGeo.value = e.result.center[0];
+  lngAGeo.value = e.result.center[0];
+  latAGeo.value = e.result.center[1];
   //console.dir(e.result.center);
   //results.innerText = JSON.stringify(e.result, null, 2);
 });
@@ -42,8 +42,8 @@ const latBGeo = document.getElementById('latB');
  
 // Add geocoder result to container.
 geocoderB.on('result', (e) => {
-  lngBGeo.value = e.result.center[3];
-  latBGeo.value = e.result.center[2];
+  lngBGeo.value = e.result.center[0];
+  latBGeo.value = e.result.center[1];
 });
  
 // Clear results container when search is cleared.
