@@ -25,6 +25,8 @@ const urlParams = new URLSearchParams(queryString);
 
 //lendo todos os parametros que estão vindo por GET e aparecendo na URL depois do ?
 //usar document.getElementById quando o form estiver dentro do mapa
+
+
 const profile = urlParams.get('profile');
 const longA = urlParams.get('longA');
 const latA = urlParams.get('latA');
@@ -34,7 +36,6 @@ const circleRadius = urlParams.get('circleRadius'); //in meters (m), needs to co
 const circleResolution = urlParams.get('circleResolution');
 const iconsToggle = urlParams.get('iconsToggle');
 const circleToggle = urlParams.get('circleToggle');
-
 
 //Quando a página carrega faz o download da planilha do Google e chama a função "makeGeoJSON(csvData)"
 $(document).ready(() => {
@@ -110,6 +111,7 @@ function showMarkers(pointsFeature){
       var camIcon = new L.Icon({
         iconSize: [50, 50],
         iconAnchor: [27, 42],
+        'icon-allow-overlap': false,
         //popupAnchor: [1, -24],
         iconUrl: 'media/camera.png'
       });
@@ -248,12 +250,12 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   let rota2 = directionsGeoJson2.features[0].properties.segments[0];
   //console.dir(rota);
   
-  let rotaDistance = rota.distance + " metros";
-  let rotaDuration = rota.duration + " segundos";
+  let rotaDistance = rota.distance + " meters";
+  let rotaDuration = rota.duration + " seconds";
   let rotaSteps = rota.steps;
 
-  let rota2Distance = rota2.distance + " metros";
-  let rota2Duration = rota2.duration + " segundos";
+  let rota2Distance = rota2.distance + " meters";
+  let rota2Duration = rota2.duration + " seconds";
   let rota2Steps = rota2.steps;
 
   //calcula a diferença das duas rotas
@@ -265,27 +267,27 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   //console.dir(rotaSteps);
   
   const summaryTitle = document.createElement('h2');
-  summaryTitle.innerText = "Summary";
+  summaryTitle.innerText = "ROUTES COMPARISON";
   rotasElement.appendChild(summaryTitle);
 
   const invisibleTitle = document.createElement('h3');
-  invisibleTitle.innerText = "Invisible";
+  invisibleTitle.innerText = "INVISIBLE ROUTE";
   rotasElement.appendChild(invisibleTitle);
   
   const summaryDistance = document.createElement('span');
-  summaryDistance.innerText = "Total distance: " + rotaDistance + " (" + distanceDiff.toFixed(1) + " metros a mais)";
+  summaryDistance.innerText = "Total distance: " + rotaDistance + " (" + distanceDiff.toFixed(1) + " meters more than the surveilled route)";
   rotasElement.appendChild(summaryDistance);
   
   rotasElement.appendChild(document.createElement('br'));
   
   const summaryDuration = document.createElement('span');
-  summaryDuration.innerText = "Total duration: " + rotaDuration + " (" + durationDiff.toFixed(1) + " segundos a mais)";
+  summaryDuration.innerText = "Total duration: " + rotaDuration + " (" + durationDiff.toFixed(1) + " seconds more than the surveilled route)";
   rotasElement.appendChild(summaryDuration);  
   
   rotasElement.appendChild(document.createElement('br'));
 
   const normalTitle = document.createElement('h3');
-  normalTitle.innerText = "Default";
+  normalTitle.innerText = "SURVEILLED ROUTE";
   rotasElement.appendChild(normalTitle);
   
   const summary2Distance = document.createElement('span');
@@ -316,7 +318,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(document.createElement('br'));
 
   const summaryRouteCameras = document.createElement('span');
-  summaryRouteCameras.innerText = "Total cameras: " + routeCameras;
+  summaryRouteCameras.innerText = "Total of cameras on the way: " + routeCameras;
   rotasElement.appendChild(summaryRouteCameras);
 
   rotasElement.appendChild(document.createElement('br'));
@@ -324,11 +326,11 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   
   
   const stepsTitle = document.createElement('h2');
-  stepsTitle.innerText = "Steps";
+  stepsTitle.innerText = "STEPS";
   rotasElement.appendChild(stepsTitle);
 
   const invisibleStepsTitle = document.createElement('h3');
-  invisibleStepsTitle.innerText = "Invisible";
+  invisibleStepsTitle.innerText = "INVISIBLE ROUTE";
   rotasElement.appendChild(invisibleStepsTitle);
 
 
@@ -337,8 +339,8 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   for(var step in rotaSteps) {
     //console.log(i);
     let instruction = rotaSteps[step].instruction;
-    let distance = rotaSteps[step].distance + " metros";
-    let duration = rotaSteps[step].duration + " segundos";
+    let distance = rotaSteps[step].distance + " meters";
+    let duration = rotaSteps[step].duration + " seconds";
     
     //console.log(instruction);
     //console.log(distance);
@@ -356,7 +358,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   }
 
   const normalStepsTitle = document.createElement('h3');
-  normalStepsTitle.innerText = "Normal";
+  normalStepsTitle.innerText = "SURVEILLED ROUTE";
   rotasElement.appendChild(normalStepsTitle);
 
 
@@ -364,8 +366,8 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   for(var step in rota2Steps) {
     //console.log(j);
     let instruction = rota2Steps[step].instruction;
-    let distance = rota2Steps[step].distance + " metros";
-    let duration = rota2Steps[step].duration + " segundos";
+    let distance = rota2Steps[step].distance + " meters";
+    let duration = rota2Steps[step].duration + " seconds";
     
     //console.log(instruction);
     //console.log(distance);
