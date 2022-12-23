@@ -305,10 +305,10 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(invisibleTitle);
   
   const summaryDistance = document.createElement('span');
-  const summaryDistanceTitle = document.createElement('p');
-  summaryDistanceTitle.innerText = "Total distance: "; 
-  summaryDistanceTitle.style.fontStyle = "italic";
-  summaryDistance.innerText = rotaDistance + " (" + distanceDiff.toFixed(1) + " meters more than the surveilled route)";
+  summaryDistance.innerText = "Total distance: " + rotaDistance ;
+  rotasElement.appendChild(document.createElement('br'));
+  const summaryDistanceObs = document.createElement('p'); 
+  summaryDistanceObs.innerText = distanceDiff.toFixed(1) + " meters more than the surveilled route";
   rotasElement.appendChild(summaryDistance);
   
   rotasElement.appendChild(document.createElement('br'));
@@ -364,7 +364,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   */
     
   const invisibleStepsTitle = document.createElement('h3');
-  invisibleStepsTitle.innerText = "INVISIBLE ROUTE ˅";
+  invisibleStepsTitle.innerText = "INVISIBLE ROUTE ⋁";
   collapsElement1.appendChild(invisibleStepsTitle);
 
 
@@ -394,7 +394,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
 
 
   const normalStepsTitle = document.createElement('h3');
-  normalStepsTitle.innerText = "SURVEILLED ROUTE ˅";  
+  normalStepsTitle.innerText = "SURVEILLED ROUTE ⋁";  
   collapsElement2.appendChild(normalStepsTitle);
   
       
@@ -427,10 +427,22 @@ var i;
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
-    var content = this.nextElementSibling;
+        var content = this.nextElementSibling;
     if (content.style.display === "block") {
+            var h3This = this.getElementsByTagName("h3");
+            let h3ThisText = h3This[0].innerText;
+            let change = h3ThisText.replace(" ⋀", " ⋁");
+            console.log(h3ThisText);
+            console.log(change);
+            h3This[0].innerText = change;
       content.style.display = "none";
     } else {
+            var h3This = this.getElementsByTagName("h3");
+            let h3ThisText = h3This[0].innerText;
+            let change = h3ThisText.replace(" ⋁", " ⋀");
+            console.log(h3ThisText);
+            console.log(change);
+            h3This[0].innerText = change;
       content.style.display = "block";
     }
   });
