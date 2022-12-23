@@ -364,7 +364,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   */
     
   const invisibleStepsTitle = document.createElement('h3');
-  invisibleStepsTitle.innerText = "INVISIBLE ROUTE ⋁";
+  invisibleStepsTitle.innerText = "INVISIBLE ROUTE ▼";
   collapsElement1.appendChild(invisibleStepsTitle);
 
 
@@ -394,7 +394,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
 
 
   const normalStepsTitle = document.createElement('h3');
-  normalStepsTitle.innerText = "SURVEILLED ROUTE ⋁";  
+  normalStepsTitle.innerText = "SURVEILLED ROUTE ▼";  
   collapsElement2.appendChild(normalStepsTitle);
   
       
@@ -431,7 +431,7 @@ for (i = 0; i < coll.length; i++) {
     if (content.style.display === "block") {
             var h3This = this.getElementsByTagName("h3");
             let h3ThisText = h3This[0].innerText;
-            let change = h3ThisText.replace(" ⋀", " ⋁");
+            let change = h3ThisText.replace(" ▲", " ▼");
             console.log(h3ThisText);
             console.log(change);
             h3This[0].innerText = change;
@@ -439,7 +439,7 @@ for (i = 0; i < coll.length; i++) {
     } else {
             var h3This = this.getElementsByTagName("h3");
             let h3ThisText = h3This[0].innerText;
-            let change = h3ThisText.replace(" ⋁", " ⋀");
+            let change = h3ThisText.replace(" ▼", " ▲");
             console.log(h3ThisText);
             console.log(change);
             h3This[0].innerText = change;
