@@ -221,7 +221,7 @@ function getDirectionsORS2(avoidingPolygons) {
             //"color": "#FFFFFF", //branca 
             "opacity": 1
           }
-        }).addTo(map); //adiciona rota invisível de verde
+        }).addTo(map); //adiciona rota invisível de amarelo
         //rotaResumo(json);
 
         // usa return para chamar o cálculo da rota padrão, atualmente como "shortest"
@@ -243,8 +243,8 @@ function getDirectionsORS2(avoidingPolygons) {
               //console.dir(json2);
               L.geoJSON(json2, {
                 style:{
-                  //"color": "#ff7400", //laranja
-                  "color": "#fff", //laranja
+                  "color": "#ff7400", //laranja
+                  //"color": "#fff", //branco
                   "opacity": 1
                 }
               }).addTo(map); //adiciona rota padrão no mapa de vermelho
@@ -282,18 +282,32 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   let rota = directionsGeoJson.features[0].properties.segments[0];
   let rota2 = directionsGeoJson2.features[0].properties.segments[0];
   //console.dir(rota);
+    
+  let rotakms = rota.distance / 1000;
+  let rotaKm = rotakms.toFixed(2);
   
-  let rotaDistance = rota.distance + " meters";
-  let rotaDuration = rota.duration + " seconds";
+  let rotaMins = rota.duration/60;
+  let rotaMin = rotaMins.toFixed(1);
+    
+  let rotakms2 = rota2.distance / 1000;
+  let rotaKm2 = rotakms2.toFixed(2);
+  
+  let rotaMins2 = rota2.duration/60;
+  let rotaMin2 = rotaMins2.toFixed(1);
+  
+  let rotaDistance = rotaKm + " km";
+  let rotaDuration = rotaMin + " min";
   let rotaSteps = rota.steps;
 
-  let rota2Distance = rota2.distance + " meters";
-  let rota2Duration = rota2.duration + " seconds";
+  let rota2Distance = rotaKm2 + " km ";
+  let rota2Duration = rotaMin2 + " min ";
   let rota2Steps = rota2.steps;
 
   //calcula a diferença das duas rotas
   let distanceDiff = rota.distance - rota2.distance;
+  let distanceDiffKm = distanceDiff/1000;
   let durationDiff = rota.duration - rota2.duration;
+  let durationDiffMin = durationDiff/60;
     
   //console.log(rotaDistance);
   //console.log(rotaDuration);
@@ -308,32 +322,34 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(invisibleTitle);
   
   const summaryDistance = document.createElement('span');
-  summaryDistance.innerText = "Total distance: " + rotaDistance ;
-  rotasElement.appendChild(document.createElement('br'));
-  const summaryDistanceObs = document.createElement('p'); 
-  summaryDistanceObs.innerText = distanceDiff.toFixed(1) + " meters more than the surveilled route";
+  summaryDistance.innerText =  "Distance: " + rotaDistance;   
   rotasElement.appendChild(summaryDistance);
   
   rotasElement.appendChild(document.createElement('br'));
   
   const summaryDuration = document.createElement('span');
-  summaryDuration.innerText = "Total duration: " + rotaDuration + " (" + durationDiff.toFixed(1) + " seconds more than the surveilled route)";
+  summaryDuration.innerText = "Duration: " + rotaDuration;
   rotasElement.appendChild(summaryDuration);  
   
   rotasElement.appendChild(document.createElement('br'));
-
-  const normalTitle = document.createElement('h3');
+  rotasElement.appendChild(document.createElement('br'));
+    
+  const summaryDiff = document.createElement('span');
+  summaryDiff.innerText = durationDiffMin.toFixed(1) + " min and " + distanceDiffKm.toFixed(2) + "km more than the surveilled route";
+  rotasElement.appendChild(summaryDiff);
+  
+    const normalTitle = document.createElement('h3');
   normalTitle.innerText = "SURVEILLED ROUTE";
   rotasElement.appendChild(normalTitle);
   
   const summary2Distance = document.createElement('span');
-  summary2Distance.innerText = "Total distance: " + rota2Distance;
+  summary2Distance.innerText = "Distance: " + rota2Distance;
   rotasElement.appendChild(summary2Distance);
   
   rotasElement.appendChild(document.createElement('br'));
   
   const summary2Duration = document.createElement('span');
-  summary2Duration.innerText = "Total duration: " + rota2Duration;
+  summary2Duration.innerText = "Duration: " + rota2Duration;
   rotasElement.appendChild(summary2Duration);
 
   //gera a feature collection dos círculos e calcula o número de intersecções com a rota padrão
@@ -354,7 +370,7 @@ function rotaResumo(directionsGeoJson,directionsGeoJson2){
   rotasElement.appendChild(document.createElement('br'));
 
   const summaryRouteCameras = document.createElement('span');
-  summaryRouteCameras.innerText = "Total of cameras on the way: " + routeCameras;
+  summaryRouteCameras.innerText = "Cameras on the way: " + routeCameras;
   rotasElement.appendChild(summaryRouteCameras);
 
   rotasElement.appendChild(document.createElement('br'));
