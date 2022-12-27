@@ -4,7 +4,7 @@
 const config = {
   //  styleId: 'saralgc/ckwo2w6q21d0w15oh8zqdid1k',
   // styleId: 'saralgc/ckwo48ncq3iht14lrkxn237z4',
-     styleId: 'saralgc/clc67o6m7000214mqddete1n1',
+     styleId: 'saralgc/clc6mh07d000w15s2ii1isn5t',
 //    accessToken: 'pk.eyJ1Ijoic2FyYWxnYyIsImEiOiJja2NjbTAyczkwNXA3Mnlscm5nbjN5OHZiIn0.yNcJkPBSugRlIeGkXDRlZw',
     accessToken: 'pk.eyJ1Ijoic2FyYWxnYyIsImEiOiJja2NjbTAyczkwNXA3Mnlscm5nbjN5OHZiIn0.yNcJkPBSugRlIeGkXDRlZw',
   
