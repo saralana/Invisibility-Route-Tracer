@@ -3,7 +3,8 @@
 // eslint-disable-next-line no-unused-vars
 const config = {
   //  styleId: 'saralgc/ckwo2w6q21d0w15oh8zqdid1k',
-    styleId: 'saralgc/ckwo48ncq3iht14lrkxn237z4',
+  // styleId: 'saralgc/ckwo48ncq3iht14lrkxn237z4',
+     styleId: 'saralgc/clc67o6m7000214mqddete1n1',
 //    accessToken: 'pk.eyJ1Ijoic2FyYWxnYyIsImEiOiJja2NjbTAyczkwNXA3Mnlscm5nbjN5OHZiIn0.yNcJkPBSugRlIeGkXDRlZw',
     accessToken: 'pk.eyJ1Ijoic2FyYWxnYyIsImEiOiJja2NjbTAyczkwNXA3Mnlscm5nbjN5OHZiIn0.yNcJkPBSugRlIeGkXDRlZw',
   

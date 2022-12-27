@@ -20,6 +20,8 @@ var target = L.latLng(config.latCenter, config.lngCenter);
 // Create Leaflet map on map element.
 var map = L.map(element).setView(target, config.zoom);
 
+new L.Control.Zoom({ position: 'topright' }).addTo(map);
+
 map.options.minZoom = 15;
 map.options.maxZoom = 18;
 
@@ -119,8 +121,8 @@ function showMarkers(pointsFeature){
   my_json = L.geoJson(pointsFeature, {
     pointToLayer: function (feature, latlng) {
       var camIcon = new L.Icon({
-        iconSize: [50, 50],
-        iconAnchor: [27, 42],
+        iconSize: [25, 30],
+        iconAnchor: [15, 28],
         'icon-allow-overlap': false,
         //popupAnchor: [1, -24],
         iconUrl: 'media/camera.png'
@@ -165,7 +167,7 @@ function getDirectionsORS2(avoidingPolygons) {
   });
   
   var aIcon = new L.Icon({
-        iconSize: [75, 75],
+        iconSize: [50, 60],
         iconAnchor: [60, 60],
         zIndexOffset: 5000,
         //popupAnchor: [1, -24],
@@ -173,7 +175,7 @@ function getDirectionsORS2(avoidingPolygons) {
   });    
     
   var bIcon = new L.Icon({
-        iconSize: [75, 75],
+        iconSize: [50, 60],
         iconAnchor: [60, 60],
         zIndexOffset: 6000,
         //popupAnchor: [1, -24],
@@ -215,8 +217,8 @@ function getDirectionsORS2(avoidingPolygons) {
         //console.dir(json);
         L.geoJSON(json, {
           style:{
-            // "color": "#3388ff",
-            "color": "#ffe700", //amarelo
+            "color": "#fcee21", //amarelo
+            //"color": "#FFFFFF", //branca 
             "opacity": 1
           }
         }).addTo(map); //adiciona rota invisível de verde
@@ -241,7 +243,8 @@ function getDirectionsORS2(avoidingPolygons) {
               //console.dir(json2);
               L.geoJSON(json2, {
                 style:{
-                  "color": "#00ffe3", //turquesa 
+                  //"color": "#ff7400", //laranja
+                  "color": "#fff", //laranja
                   "opacity": 1
                 }
               }).addTo(map); //adiciona rota padrão no mapa de vermelho

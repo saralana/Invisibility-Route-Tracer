@@ -112,8 +112,8 @@ function showMarkers(pointsFeature){
   my_json = L.geoJson(pointsFeature, {
     pointToLayer: function (feature, latlng) {
       var camIcon = new L.Icon({
-        iconSize: [50, 50],
-        iconAnchor: [27, 42],
+        iconSize: [25, 30],
+        iconAnchor: [15, 28],
         'icon-allow-overlap': false,
         //popupAnchor: [1, -24],
         iconUrl: 'media/camera.png'

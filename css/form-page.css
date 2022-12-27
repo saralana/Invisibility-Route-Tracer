@@ -159,3 +159,7 @@ svg.mapboxgl-ctrl-geocoder--icon {
 .geocoderB .mapboxgl-ctrl{
   z-index: 0;
 }
+
+.leaflet-left {
+    display: none;
+}
