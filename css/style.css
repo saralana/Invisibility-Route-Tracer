@@ -64,6 +64,19 @@ a, a:visited, a:hover, a:active {
   color: #2057b5;
     text-decoration: none;
 }
+
+.btn { 
+    text-align: center;
+    background-color:#2057b5;
+    color: white;
+    border:0px;
+    cursor: pointer;
+    font-family: "Source Code Pro","Courier New","Lucida Sans Typewriter",monospace;
+    text-transform: uppercase;
+    padding:10px;
+    margin-left:20%;
+}
+
 hr{
     border:none;
     border-bottom: 1px solid white;
